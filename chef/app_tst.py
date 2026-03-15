@@ -1,3 +1,4 @@
+#from langchain.agents import create_react_agent
 from langgraph.prebuilt import create_react_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.messages import HumanMessage, AIMessage
@@ -9,6 +10,7 @@ from utils import web_search, mem
 from langgraph.checkpoint.memory import InMemorySaver
 from dotenv import load_dotenv, dotenv_values #, set_key
 import json
+import os
 from pathlib import Path
 
 env_path = Path(__file__).resolve().parent.parent / ".env"
@@ -16,7 +18,9 @@ load_dotenv(env_path)
 
 #AGENT DEFINITIONS
 
-config = json.loads(dotenv_values(".env").get("CONFIG", "{}"))
+#config = json.loads(dotenv_values(".env").get("CONFIG"))
+config_str = os.environ.get("CONFIG")
+config = json.loads(config_str)
 
 system_prompt = """
 You are a chef, the user will provide an image of his refrigerator or alternatively share the list of items he/she has, you job is to actually fcking show recipe suggestions and help the user with the recipe he/she likes to be made from the items.
